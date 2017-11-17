@@ -133,16 +133,11 @@ public class ListaDeLaCompra {
 		}
 		actualizaLista();
 	}
-/*
-	
 
-
-	public void setNombreProducto(Producto p, String n) {
-		if (listaProd.contains(p))
-			p.setNombre(n);
-
-	}
-*/
+	/**
+	 * Marca el producto pasado como comprado
+	 * @param nombreProd
+	 */
 	public void comprarProducto(String nombreProd) {
 		Producto pr=getProducto(nombreProd);
 		if(pr!=null) {
@@ -155,6 +150,9 @@ public class ListaDeLaCompra {
 		}
 	}
 
+	/**
+	 * Mustra el contenio de la lista
+	 */
 	public void muestraLista() {
 		for (Producto i : listaProd) {
 			i.muestraProducto();
@@ -194,37 +192,8 @@ public class ListaDeLaCompra {
 			}
 		}
 	}//leeproductos
-	/*
-	public void leeFichero(){
+	
 
-		//File fichero = new File(nombreFichero);
-
-		Scanner s = null;
-		try {
-			// Leemos el contenido del fichero
-			System.out.println("... Leemos el contenido del fichero ...");
-			s = new Scanner(fichero);
-
-			// Leemos linea a linea el fichero
-			while (s.hasNextLine()) {
-				String linea = s.nextLine(); 	// Guardamos la linea en un String
-				//split
-				System.out.println(linea);      // Imprimimos la linea
-			}
-
-		} catch (Exception ex) {
-			System.out.println("Mensaje: " + ex.getMessage());
-		} finally {
-			// Cerramos el fichero tanto si la lectura ha sido correcta o no
-			try {
-				if (s != null)
-					s.close();
-			} catch (Exception ex2) {
-				System.out.println("Mensaje 2: " + ex2.getMessage());
-			}
-		}
-	}//leerfichero
-	*/
 	/**
 	 * Añade un producto a la lista
 	 */

@@ -14,7 +14,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
+/**
+ * @author Álvaro García
+ * @author Daniel Hernando
+ *
+ */
 public class Main {
 
     private static Scanner sn;
