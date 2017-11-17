@@ -5,7 +5,6 @@
 package compras;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -16,8 +15,13 @@ import java.util.Scanner;
  */
 
 public class ListaDeLaCompra {
-	
+	/**
+	 * Fichero que contiene la Lista
+	 */
 	private File fichero;
+	/**
+	 * Array de Productos 
+	 */
 	private ArrayList<Producto> listaProd;
 
 	/**
@@ -40,15 +44,17 @@ public class ListaDeLaCompra {
 		//Comprobar si producto existe
 		if(listaProd.isEmpty()){
 			Producto p=new Producto(nombreProd,cantidad,false);
+			listaProd.add(p);
 			addALista(p);
 		}else{
 			Producto pr=getProducto(nombreProd);
 			if(pr!=null) {
 				int cantN=pr.getCantidad()+cantidad;
-				listaProd.get(listaProd.indexOf(pr)).setcantidad(cantN);
+				listaProd.get(listaProd.indexOf(pr)).setCantidad(cantN);
 				actualizaLista();
 			}else {
 				Producto p=new Producto(nombreProd,cantidad,false);
+				listaProd.add(p);
 				addALista(p);
 			}
 		}
@@ -89,7 +95,7 @@ public class ListaDeLaCompra {
 	 * @param nombreProdA actual
 	 * @param nombreProdN nuevo
 	 */
-	public void cambiarNombreProd(String nombreProdA,String nombreProdN) {
+	public void cambiaNombreProd(String nombreProdA,String nombreProdN) {
 		Producto pr=getProducto(nombreProdA);
 		if(pr!=null) {
 			listaProd.get(listaProd.indexOf(pr)).setNombre(nombreProdN);
@@ -99,16 +105,37 @@ public class ListaDeLaCompra {
 			System.out.println("No se harán modificaciones en la lista");
 		}
 	}
+	
+	/**
+	 * Modifica la cantidad del producto 
+	 * @param nombreProd
+	 * @param c
+	 */
+	public void cambiaCantidadProducto(String nombreProd, int c) {
+		Producto pr=getProducto(nombreProd);
+		if(pr!=null) {
+			listaProd.get(listaProd.indexOf(pr)).setCantidad(c);
+			actualizaLista();
+		}else {
+			System.out.println("El producto elegido no existe");
+			System.out.println("No se harán modificaciones en la lista");
+		}
+	}
+	
+	/**
+	 * Borra los productos marcados como comprados
+	 */
+	public void limpiaLista() {
+		for (Producto p : listaProd) {
+			if(p.getComprado()) {
+				listaProd.remove(p);
+			}
+		}
+		actualizaLista();
+	}
 /*
-	public void setIdProducto(Producto p, int a) {
-		if (listaProd.contains(p))
-			p.setId(a);
-	}
+	
 
-	public void setcantidadProducto(Producto p, int c) {
-		if (listaProd.contains(p))
-			p.setcantidad(c);
-	}
 
 	public void setNombreProducto(Producto p, String n) {
 		if (listaProd.contains(p))
@@ -120,7 +147,7 @@ public class ListaDeLaCompra {
 		Producto pr=getProducto(nombreProd);
 		if(pr!=null) {
 			listaProd.get(listaProd.indexOf(pr)).setComprado(true);
-			//listaProd.remove(pr);
+			//listaProd.remove(pr); 
 			actualizaLista();
 		}else {
 			System.out.println("El producto elegido no existe");
@@ -131,7 +158,6 @@ public class ListaDeLaCompra {
 	public void muestraLista() {
 		for (Producto i : listaProd) {
 			i.muestraProducto();
-			// System.out.println();
 		}
 
 	}

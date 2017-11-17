@@ -12,8 +12,17 @@ package compras;
 public class Producto{
 	
 	//private int id;
-	private int cantidad;
+	/**
+	 * Nombre con el que se identifica el producto
+	 */
 	private String nombre;
+	/**
+	 * Cantidad que se va a comprar de dicho producto
+	 */
+	private int cantidad;
+	/**
+	 * Si el producto ha sido comprado o no
+	 */
 	private boolean comprado;
 	
 	/**
@@ -34,7 +43,7 @@ public class Producto{
 	 * Set Cantidad
 	 * @param c
 	 */
-	public void setcantidad(int c){
+	public void setCantidad(int c){
 		this.cantidad = c;
 	}
 
@@ -82,7 +91,7 @@ public class Producto{
 	 * Mostrar producto
 	 */
 	public void muestraProducto(){
-		System.out.println(".  Nombre: " +this.nombre+ ".  Cantidad: " + this.cantidad+  ".  Comprado: "+this.comprado  );
+		System.out.println(".  Producto: " +this.nombre+ ".  Cantidad: " + this.cantidad+  ".  Comprado: "+this.comprado  );
 	}
 }
 //clase Producto
