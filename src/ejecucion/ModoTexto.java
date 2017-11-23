@@ -1,7 +1,7 @@
 /**
  * 
  */
-package compras;
+package ejecucion;
 
 import java.io.File;
 
@@ -11,19 +11,20 @@ import java.io.File;
  *
  */
 
-import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
+import compras.ListaDeLaCompra;
 /**
  * @author Álvaro García
  * @author Daniel Hernando
  *
  */
-public class Main {
+public class ModoTexto {
 
     private static Scanner sn;
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public ModoTexto() {
 
         int entradaTeclado = 0;
         boolean salir = false;
@@ -50,7 +51,7 @@ public class Main {
                     //Declaracion de Variables
                     String nombreFichero = "";
                     nombreFichero = sn.next();
-                    ListaDeLaCompra listaFinal = new ListaDeLaCompra(nombreFichero);// listaFinal.muestraLista();
+                    ListaDeLaCompra listaFinal = new ListaDeLaCompra(nombreFichero);
                     int entradaTeclado2 = 0;
                     boolean salir2 = false;
 
@@ -77,7 +78,7 @@ public class Main {
                                 System.out.println("Agregar un producto");
                                 System.out.println("Para agregar producto debes poner la unidad de media (u,kg,bolsa,etc)");
                                 System.out.println("Si el nombre del producto ya existe, se sumará la cantidad que añadas a continuación");
-                                System.out.println("        Escribe el nombre del producto (Ej: Naranjas-u- || Naranjas-kg- )        ");
+                                System.out.println("        Escribe el nombre del producto sin espacioos (Ej: Naranjas-u- || Naranjas-kg- )        ");
                                 nombreProd = sn.next();
                                 System.out.println("		Para continuar añade la cantidad que necesita");
                                 System.out.println("        Escribe la cantidad        ");
@@ -99,7 +100,8 @@ public class Main {
                                     System.out.println("1_Modificar nombre     ");
                                     System.out.println("2_Modificar cantidad    ");
                                     System.out.println("3_Marcar producto como comprado    ");
-                                    System.out.println("4_Salir        ");
+                                    System.out.println("4_Marcar producto como favorito    ");
+                                    System.out.println("5_Salir        ");
 
                                     try {
 
@@ -149,10 +151,19 @@ public class Main {
                                             listaFinal.comprarProducto(nombreProd);
                                             break;
                                         case 4:
+                                            System.out.println("Favorito");
+                                            System.out.println("Su Lista:");
+                                            listaFinal.muestraLista();
+                                            System.out.println("");
+                                            System.out.println("Indique el nombre del producto que desa marcar como favorito");
+                                            nombreProd = sn.next();
+                                            listaFinal.marcarFavorito(nombreProd);
+                                            break;
+                                        case 5:
                                             salir3 = true;
                                             break;
                                         default:
-                                            System.out.println("Solo números entre 1 y 4");
+                                            System.out.println("Solo números entre 1 y 5");
                                         }
                                     } catch (InputMismatchException e) {
                                         System.out

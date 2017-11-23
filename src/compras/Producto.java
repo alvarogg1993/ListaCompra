@@ -26,17 +26,23 @@ public class Producto{
 	private boolean comprado;
 	
 	/**
+	 * Si el producto ha sido comprado o no
+	 */
+	private boolean favorito;
+	
+	/**
 	 * Constructor de producto
 	 * 
 	 * @param nombre
 	 * @param cantidad
 	 * @param comprado
 	 */
-	public Producto(String nombre,int cantidad,boolean comprado){
+	public Producto(String nombre,int cantidad,boolean comprado,boolean favorito){
 		//this.id = id;
 		this.nombre = nombre;
 		this.cantidad=cantidad;
 		this.comprado = comprado;
+		this.favorito = favorito;
 	}
 	
 	/**
@@ -62,6 +68,14 @@ public class Producto{
 	public void setComprado(Boolean c){
 		this.comprado = c;
 	}
+	
+	/**
+	 * Set favorito
+	 * @param f
+	 */
+	public void setFavorito(Boolean f){
+		this.favorito = f;
+	}
 
 	/**
 	 * Get cantidad
@@ -80,7 +94,7 @@ public class Producto{
 	}
 	
 	/**
-	 * Gent comprado
+	 * Get comprado
 	 * @return comprado
 	 */
 	public boolean getComprado(){
@@ -88,10 +102,18 @@ public class Producto{
 	}
 	
 	/**
+	 * Get favorito
+	 * @return favorito
+	 */
+	public boolean getFavorito(){
+		return this.favorito;
+	}
+	
+	/**
 	 * Mostrar producto
 	 */
 	public void muestraProducto(){
-		System.out.println(".  Producto: " +this.nombre+ ".  Cantidad: " + this.cantidad+  ".  Comprado: "+this.comprado  );
+		System.out.println(" .  Producto: " +this.nombre+ " .  Cantidad: " + this.cantidad+  " .  Comprado: "+this.comprado+  " .  Favorito: "+this.favorito  );
 	}
 }
 //clase Producto

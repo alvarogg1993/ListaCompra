@@ -4,21 +4,20 @@
  */
 package compras;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.Scanner;
+
+import persistencia.Fichero;
 /**
  * @author Álvaro García
  * @author Daniel Hernando
  *
  */
 
-public class ListaDeLaCompra {
+public class ListaDeLaCompra implements Compra{
 	/**
 	 * Fichero que contiene la Lista
 	 */
-	private File fichero;
+	private Fichero fichero;
 	/**
 	 * Array de Productos 
 	 */
@@ -30,9 +29,11 @@ public class ListaDeLaCompra {
 	 */
 	public ListaDeLaCompra(String nombreLista) {
 		//Crea objeto FILE para la lista de la compra
-		fichero = new File(nombreLista);
+		fichero = new Fichero(nombreLista);
 		listaProd=new ArrayList<Producto>();
-		leeProductos(); 
+		if(fichero.getFichero().exists()) {
+			fichero.leerProductos(listaProd);
+		}
 	}//constructor
 	
 	/**
@@ -43,19 +44,19 @@ public class ListaDeLaCompra {
 	public void addProducto(String nombreProd, int cantidad) {
 		//Comprobar si producto existe
 		if(listaProd.isEmpty()){
-			Producto p=new Producto(nombreProd,cantidad,false);
+			Producto p=new Producto(nombreProd,cantidad,false,false);
 			listaProd.add(p);
-			addALista(p);
+			fichero.addALista(p,listaProd);
 		}else{
 			Producto pr=getProducto(nombreProd);
 			if(pr!=null) {
 				int cantN=pr.getCantidad()+cantidad;
 				listaProd.get(listaProd.indexOf(pr)).setCantidad(cantN);
-				actualizaLista();
+				fichero.actualizaLista(listaProd);
 			}else {
-				Producto p=new Producto(nombreProd,cantidad,false);
+				Producto p=new Producto(nombreProd,cantidad,false,false);
 				listaProd.add(p);
-				addALista(p);
+				fichero.addALista(p, listaProd);
 			}
 		}
 	}
@@ -68,7 +69,7 @@ public class ListaDeLaCompra {
 		Producto pr=getProducto(nombreProd);
 		if(pr!=null) {
 			listaProd.remove(pr);
-			actualizaLista();
+			fichero.actualizaLista(listaProd);
 		}else {
 			System.out.println("El producto elegido no existe");
 			System.out.println("No se harán modificaciones en la lista");
@@ -99,7 +100,7 @@ public class ListaDeLaCompra {
 		Producto pr=getProducto(nombreProdA);
 		if(pr!=null) {
 			listaProd.get(listaProd.indexOf(pr)).setNombre(nombreProdN);
-			actualizaLista();
+			fichero.actualizaLista(listaProd);
 		}else {
 			System.out.println("El producto elegido no existe");
 			System.out.println("No se harán modificaciones en la lista");
@@ -115,7 +116,7 @@ public class ListaDeLaCompra {
 		Producto pr=getProducto(nombreProd);
 		if(pr!=null) {
 			listaProd.get(listaProd.indexOf(pr)).setCantidad(c);
-			actualizaLista();
+			fichero.actualizaLista(listaProd);
 		}else {
 			System.out.println("El producto elegido no existe");
 			System.out.println("No se harán modificaciones en la lista");
@@ -128,10 +129,14 @@ public class ListaDeLaCompra {
 	public void limpiaLista() {
 		for (Producto p : listaProd) {
 			if(p.getComprado()) {
-				listaProd.remove(p);
+				if(p.getFavorito()){
+					p.setCantidad(0);
+				}else {
+					listaProd.remove(p);
+				}
 			}
 		}
-		actualizaLista();
+		fichero.actualizaLista(listaProd);
 	}
 
 	/**
@@ -143,13 +148,29 @@ public class ListaDeLaCompra {
 		if(pr!=null) {
 			listaProd.get(listaProd.indexOf(pr)).setComprado(true);
 			//listaProd.remove(pr); 
-			actualizaLista();
+			fichero.actualizaLista(listaProd);
 		}else {
 			System.out.println("El producto elegido no existe");
 			System.out.println("No se harán modificaciones en la lista");
 		}
 	}
 
+	/**
+	 * Marca el producto como favorito
+	 * @param nombreProd
+	 */
+	public void marcarFavorito(String nombreProd) {
+		Producto pr=getProducto(nombreProd);
+		if(pr!=null) {
+			listaProd.get(listaProd.indexOf(pr)).setFavorito(true);
+			//listaProd.remove(pr); 
+			fichero.actualizaLista(listaProd);
+		}else {
+			System.out.println("El producto elegido no existe");
+			System.out.println("No se harán modificaciones en la lista");
+		}
+	}
+	
 	/**
 	 * Mustra el contenio de la lista
 	 */
@@ -158,75 +179,7 @@ public class ListaDeLaCompra {
 			i.muestraProducto();
 		}
 
-	}
-
-	/**
-	 * Recoger los productos de la lista y añadirlos a un array de Productos
-	 * 
-	 */
-	public void leeProductos(){
-		Scanner s = null;
-		try {
-			// Leemos el contenido del fichero
-			s = new Scanner(fichero);
-			// Leemos linea a linea el fichero
-			while (s.hasNextLine()) {
-				String linea = s.nextLine(); 	// Guardamos la linea en un String
-				//separar los atributos de cada producto
-				String[] prodatr=linea.split(";");
-				//Crear nuevo producto y añadirlo al array
-				Producto product=new Producto(prodatr[0],Integer.parseInt(prodatr[1]),Boolean.valueOf(prodatr[2]));
-				listaProd.add(product);
-			//	System.out.println(linea);      // Imprimimos la linea
-			}
-
-		} catch (Exception ex) {
-			System.out.println("Mensaje: " + ex.getMessage());
-		} finally {
-			// Cerramos el fichero tanto si la lectura ha sido correcta o no
-			try {
-				if (s != null)
-					s.close();
-			} catch (Exception ex2) {
-				System.out.println("Mensaje 2: " + ex2.getMessage());
-			}
-		}
-	}//leeproductos
-	
-
-	/**
-	 * Añade un producto a la lista
-	 */
-	public void addALista(Producto p){
-		FileWriter fich = null;
-		try {
-			fich= new FileWriter(fichero,true);
-			//Escribir liena del fichero
-			fich.write(p.getNombre() + ";" + p.getCantidad() + ";" + p.getComprado() + "\n");
-			//cerrarfichero
-			fich.close();
-		} catch (Exception ex) {
-			System.out.println("Mensaje de la excepción: " + ex.getMessage());
-		}
-	}//addALista
-	
-	/**
-	 * Actualiza el fichero con la lista de productos
-	 */
-	public void actualizaLista(){
-		FileWriter fich = null;
-		try {
-			fich= new FileWriter(fichero);
-			// Escribimos linea a linea en el fichero
-			for (Producto p : listaProd) {
-				fich.write(p.getNombre() + ";" + p.getCantidad() + ";" + p.getComprado() + "\n");
-			}
-			//cerrarfichero
-			fich.close();
-		} catch (Exception ex) {
-			System.out.println("Mensaje de la excepción: " + ex.getMessage());
-		}
-	}//actualizaLista
+	}//muestraLista
 
 }
 
