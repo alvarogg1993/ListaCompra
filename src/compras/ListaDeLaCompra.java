@@ -13,7 +13,7 @@ import persistencia.Fichero;
  *
  */
 
-public class ListaDeLaCompra implements Compra{
+public class ListaDeLaCompra{
 	/**
 	 * Fichero que contiene la Lista
 	 */
