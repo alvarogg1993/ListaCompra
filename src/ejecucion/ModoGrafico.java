@@ -319,19 +319,18 @@ public class ModoGrafico extends Application{
 		HBox espTitulo = new HBox ();
 		espTitulo.setAlignment(Pos.CENTER);
 		HBox espacio1 = new HBox ();
-		espacio1.setSpacing (55.0);
+		espacio1.setSpacing (46.0);
 		HBox espacio2= new HBox ();
-		espacio2.setSpacing (10.0);
+		espacio2.setSpacing (44.0);
 		HBox espacio3= new HBox ();
-		espacio3.setSpacing (10.0);
+		espacio3.setSpacing (34.0);
 		HBox espacio4= new HBox ();
-		espacio4.setSpacing (10.0);
+		espacio4.setSpacing (47.0);
 		HBox espacio5= new HBox ();
 		espacio5.setSpacing (10.0);
 		
 		Label titulo = new Label (" Actualizar Producto  ");
-		Label nombreT = new Label ("Nombre Producto ");
-		//
+		Label nombreT = new Label ("Nombre ");
 		Button nombreB = new Button ("Cambiar");
 		nombreB.setAlignment(Pos.CENTER);
 		nombreB.setPrefWidth(100.0);
@@ -340,12 +339,11 @@ public class ModoGrafico extends Application{
             @Override
             public void handle(ActionEvent event) {
             	chgNameStage=new Stage();
-            	//chgNameStage.setScene(setupChgNameScene());
+            	chgNameStage.setScene(setupChgNameScene());
             	chgNameStage.show();
             }
         });
 		Label cantidadT = new Label ("Cantidad ");
-		//
 		Button cantidadB = new Button ("Cambiar");
 		cantidadB.setAlignment(Pos.CENTER);
 		cantidadB.setPrefWidth(100.0);
@@ -355,12 +353,11 @@ public class ModoGrafico extends Application{
             public void handle(ActionEvent event) {
             	//Ventana cambiar cantidad
             	chgNumbStage=new Stage();
-            	//chgNumbStage.setScene(setupChgNumbScene());
+            	chgNumbStage.setScene(setupChgNumbScene());
             	chgNumbStage.show();
             }
         });
 		Label comprarT = new Label ("Comprado ");
-		//
 		Button comprarB = new Button ("Cambiar");
 		comprarB.setAlignment(Pos.CENTER);
 		comprarB.setPrefWidth(100.0);
@@ -370,7 +367,7 @@ public class ModoGrafico extends Application{
             public void handle(ActionEvent event) {
             	//Ventana cambiar comprado
             	chgBuyStage=new Stage();
-            	//chgBuyStage.setScene(setupChgBuyScene());
+            	chgBuyStage.setScene(setupChgBuyScene());
             	chgBuyStage.show();
             }
         });
@@ -385,7 +382,7 @@ public class ModoGrafico extends Application{
             public void handle(ActionEvent event) {
             	//Ventana cambiar nombre
             	chgFavStage=new Stage();
-            	//chgFavStage.setScene(setupChgFavScene());
+            	chgFavStage.setScene(setupChgFavScene());
             	chgFavStage.show();
             }
         });
@@ -413,15 +410,272 @@ public class ModoGrafico extends Application{
 		espacio4.getChildren ().addAll (favoritoT,favoritoB);
 		espacio4.setPadding(new Insets(0,0,0,10));
 		espacio5.getChildren ().addAll (cerrar);
+		espacio5.setPadding(new Insets(0,0,0,105));
+		root.getChildren ().addAll (espTitulo,espacio1,espacio2,espacio3,espacio4,espacio5);
+		Scene scene = new Scene (root, 250, 220);
+		return scene;
+	}//modProdScene
+	
+	/**
+	 * Crea ventana cambiar nombre
+	 * @return chgNameScene
+	 */
+	private Scene setupChgNameScene(){
+		VBox root = new VBox ();
+		root.setSpacing (10.0);
+		root.setPadding (new Insets (10.0, 10.0, 10.0, 10.0));
+		HBox espTitulo = new HBox ();
+		espTitulo.setAlignment(Pos.CENTER);
+		HBox espacio1 = new HBox ();
+		espacio1.setSpacing (10.0);
+		HBox espacio2= new HBox ();
+		espacio2.setSpacing (10.0);
+		HBox espacio3= new HBox ();
+		espacio3.setSpacing (10.0);
+		HBox espacio4= new HBox ();
+		espacio4.setSpacing (10.0);
+		HBox espacio5= new HBox ();
+		espacio5.setSpacing (10.0);
+		
+		Label titulo = new Label (" Cambiar Nombre  ");
+		Label nombreAT = new Label ("Nombre Producto Actual");
+		TextField nombreA=new TextField();
+		nombreA.setPrefWidth (140.0);
+		nombreA.setAlignment(Pos.CENTER);
+		Label nombreNT = new Label ("Nombre Producto Nuevo ");	
+		TextField nombreN=new TextField();
+		nombreN.setPrefWidth (140.0);
+		nombreN.setAlignment(Pos.CENTER);
+		Button cambiar = new Button ("Cambiar");
+		cambiar.setAlignment(Pos.CENTER);
+		cambiar.setPrefWidth(100.0);
+		//accion de cada boton
+		cambiar.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+		    public void handle(ActionEvent event) {
+                listaFinal.cambiaNombreProd(nombreA.getText(), nombreN.getText());
+				if(chgNameStage!=null) {
+					chgNameStage.close();
+            	}
+		    }
+		});
+		Button cancelar = new Button ("Cancelar");
+		cancelar.setAlignment(Pos.CENTER);
+		cancelar.setPrefWidth(100.0);
+		//accion de cada boton
+		cancelar.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	if(chgNameStage!=null) {
+            		chgNameStage.close();
+            	}
+            }
+        });
+		espTitulo.getChildren ().addAll (titulo);
+		espacio1.getChildren ().addAll (nombreAT);
+		espacio1.setPadding(new Insets(0,0,0,10));
+		espacio2.getChildren ().addAll (nombreA);
+		espacio2.setPadding(new Insets(0,0,0,10));
+		espacio3.getChildren ().addAll (nombreNT);
+		espacio3.setPadding(new Insets(0,0,0,10));
+		espacio4.getChildren ().addAll (nombreN);
+		espacio4.setPadding(new Insets(0,0,0,10));
+		espacio5.getChildren ().addAll (cambiar,cancelar);
 		espacio5.setPadding(new Insets(0,0,0,10));
+		root.getChildren ().addAll (espTitulo,espacio1,espacio2,espacio3,espacio4,espacio5);
+		Scene scene = new Scene (root, 250, 150);
+		return scene;
+	}//chgNameScene
+	
+	/**
+	 * Crea ventana cambiar cantidad
+	 * @return chgNumbScene
+	 */
+	private Scene setupChgNumbScene(){
+		VBox root = new VBox ();
+		root.setSpacing (10.0);
+		root.setPadding (new Insets (10.0, 10.0, 10.0, 10.0));
+		HBox espTitulo = new HBox ();
+		espTitulo.setAlignment(Pos.CENTER);
+		HBox espacio1 = new HBox ();
+		espacio1.setSpacing (55.0);
+		HBox espacio2= new HBox ();
+		espacio2.setSpacing (10.0);
+		HBox espacio3= new HBox ();
+		espacio3.setSpacing (10.0);
+		
+		Label titulo = new Label (" Agragar Producto  ");
+		Label nombreT = new Label ("Nombre Producto ");
+		Label cantidadT = new Label ("Cantidad ");
+		TextField nombre=new TextField("Producto");
+		nombre.setPrefWidth (140.0);
+		nombre.setAlignment(Pos.CENTER);
+		TextField cantidad=new TextField("Cantidad");
+		cantidad.setPrefWidth (60.0);
+		cantidad.setAlignment(Pos.CENTER);
+		Button agregar = new Button ("Agregar");
+		agregar.setAlignment(Pos.CENTER);
+		agregar.setPrefWidth(100.0);
+		//accion de cada boton
+		agregar.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+		    public void handle(ActionEvent event) {
+				listaFinal.addProducto(nombre.getText(), Integer.parseInt(cantidad.getText()));
+				if(addProdStage!=null) {
+            		addProdStage.close();
+            	}
+		    }
+		});
+		Button cancelar = new Button ("Cancelar");
+		cancelar.setAlignment(Pos.CENTER);
+		cancelar.setPrefWidth(100.0);
+		//accion de cada boton
+		cancelar.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	if(addProdStage!=null) {
+            		addProdStage.close();
+            	}
+            }
+        });
+		espTitulo.getChildren ().addAll (titulo);
+		espacio1.getChildren ().addAll (nombreT,cantidadT);
+		espacio1.setPadding(new Insets(0,0,0,10));
+		espacio2.getChildren ().addAll (nombre,cantidad);
+		espacio2.setPadding(new Insets(0,0,0,10));
+		espacio3.getChildren ().addAll (agregar,cancelar);
+		espacio3.setPadding(new Insets(0,0,0,10));
 		root.getChildren ().addAll (espTitulo,espacio1,espacio2,espacio3);
 		Scene scene = new Scene (root, 250, 150);
 		return scene;
-	}//modProdScene
-	//chgName
-	//chgNumb
-	//chgBuy
-	//chgFav
+	}//chgNumbScene
+	
+	/**
+	 * Crea ventana cambiar comprado
+	 * @return chgBuyScene
+	 */
+	private Scene setupChgBuyScene(){
+		VBox root = new VBox ();
+		root.setSpacing (10.0);
+		root.setPadding (new Insets (10.0, 10.0, 10.0, 10.0));
+		HBox espTitulo = new HBox ();
+		espTitulo.setAlignment(Pos.CENTER);
+		HBox espacio1 = new HBox ();
+		espacio1.setSpacing (55.0);
+		HBox espacio2= new HBox ();
+		espacio2.setSpacing (10.0);
+		HBox espacio3= new HBox ();
+		espacio3.setSpacing (10.0);
+		
+		Label titulo = new Label (" Agragar Producto  ");
+		Label nombreT = new Label ("Nombre Producto ");
+		Label cantidadT = new Label ("Cantidad ");
+		TextField nombre=new TextField("Producto");
+		nombre.setPrefWidth (140.0);
+		nombre.setAlignment(Pos.CENTER);
+		TextField cantidad=new TextField("Cantidad");
+		cantidad.setPrefWidth (60.0);
+		cantidad.setAlignment(Pos.CENTER);
+		Button agregar = new Button ("Agregar");
+		agregar.setAlignment(Pos.CENTER);
+		agregar.setPrefWidth(100.0);
+		//accion de cada boton
+		agregar.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+		    public void handle(ActionEvent event) {
+				listaFinal.addProducto(nombre.getText(), Integer.parseInt(cantidad.getText()));
+				if(addProdStage!=null) {
+            		addProdStage.close();
+            	}
+		    }
+		});
+		Button cancelar = new Button ("Cancelar");
+		cancelar.setAlignment(Pos.CENTER);
+		cancelar.setPrefWidth(100.0);
+		//accion de cada boton
+		cancelar.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	if(addProdStage!=null) {
+            		addProdStage.close();
+            	}
+            }
+        });
+		espTitulo.getChildren ().addAll (titulo);
+		espacio1.getChildren ().addAll (nombreT,cantidadT);
+		espacio1.setPadding(new Insets(0,0,0,10));
+		espacio2.getChildren ().addAll (nombre,cantidad);
+		espacio2.setPadding(new Insets(0,0,0,10));
+		espacio3.getChildren ().addAll (agregar,cancelar);
+		espacio3.setPadding(new Insets(0,0,0,10));
+		root.getChildren ().addAll (espTitulo,espacio1,espacio2,espacio3);
+		Scene scene = new Scene (root, 250, 150);
+		return scene;
+	}//chgBuyScene
+
+	/**
+	 * Crea ventana cambiar favorito 
+	 * @return chgFavScene
+	 */
+	private Scene setupChgFavScene(){
+		VBox root = new VBox ();
+		root.setSpacing (10.0);
+		root.setPadding (new Insets (10.0, 10.0, 10.0, 10.0));
+		HBox espTitulo = new HBox ();
+		espTitulo.setAlignment(Pos.CENTER);
+		HBox espacio1 = new HBox ();
+		espacio1.setSpacing (55.0);
+		HBox espacio2= new HBox ();
+		espacio2.setSpacing (10.0);
+		HBox espacio3= new HBox ();
+		espacio3.setSpacing (10.0);
+		
+		Label titulo = new Label (" Agragar Producto  ");
+		Label nombreT = new Label ("Nombre Producto ");
+		Label cantidadT = new Label ("Cantidad ");
+		TextField nombre=new TextField("Producto");
+		nombre.setPrefWidth (140.0);
+		nombre.setAlignment(Pos.CENTER);
+		TextField cantidad=new TextField("Cantidad");
+		cantidad.setPrefWidth (60.0);
+		cantidad.setAlignment(Pos.CENTER);
+		Button agregar = new Button ("Agregar");
+		agregar.setAlignment(Pos.CENTER);
+		agregar.setPrefWidth(100.0);
+		//accion de cada boton
+		agregar.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+		    public void handle(ActionEvent event) {
+				listaFinal.addProducto(nombre.getText(), Integer.parseInt(cantidad.getText()));
+				if(addProdStage!=null) {
+            		addProdStage.close();
+            	}
+		    }
+		});
+		Button cancelar = new Button ("Cancelar");
+		cancelar.setAlignment(Pos.CENTER);
+		cancelar.setPrefWidth(100.0);
+		//accion de cada boton
+		cancelar.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	if(addProdStage!=null) {
+            		addProdStage.close();
+            	}
+            }
+        });
+		espTitulo.getChildren ().addAll (titulo);
+		espacio1.getChildren ().addAll (nombreT,cantidadT);
+		espacio1.setPadding(new Insets(0,0,0,10));
+		espacio2.getChildren ().addAll (nombre,cantidad);
+		espacio2.setPadding(new Insets(0,0,0,10));
+		espacio3.getChildren ().addAll (agregar,cancelar);
+		espacio3.setPadding(new Insets(0,0,0,10));
+		root.getChildren ().addAll (espTitulo,espacio1,espacio2,espacio3);
+		Scene scene = new Scene (root, 250, 150);
+		return scene;
+	}//chgFavScene
+	
 	
 	/**
 	 * Crea ventana borrar producto
