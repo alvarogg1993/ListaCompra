@@ -24,6 +24,11 @@ public class ModoGrafico extends Application{
 
 	private Stage primaryStage = null;
 	private Stage secondaryStage = null;
+	private Stage addProdStage = null;
+	private Stage modProdStage = null;
+	private Stage delProdStage = null;
+	private Stage cleanListStage = null;
+	private Stage showListStage = null;
 	private ListaDeLaCompra listaFinal;
 	
 	@Override
@@ -92,9 +97,6 @@ public class ModoGrafico extends Application{
             @Override
             public void handle(ActionEvent event) {
             	primaryStage.close();
-            	if(secondaryStage!=null) {
-            		secondaryStage.close();
-            	}
             }
         });
 		 
@@ -142,7 +144,9 @@ public class ModoGrafico extends Application{
 		agregar.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	//nueva ventana
+            	addProdStage=new Stage();
+            	addProdStage.setScene(setupAddProdScene());
+            	addProdStage.show();
             }
         });
 		Label actualizarT = new Label (" -. Actualizar Producto");
@@ -153,7 +157,9 @@ public class ModoGrafico extends Application{
 		actualizar.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	//nueva ventana
+            	modProdStage=new Stage();
+            	modProdStage.setScene(setupModProdScene());
+            	modProdStage.show();
             }
         });
 		Label borrarT = new Label (" -. Borrar Producto");
@@ -164,7 +170,9 @@ public class ModoGrafico extends Application{
 		borrar.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	//nueva ventana
+            	delProdStage=new Stage();
+            	delProdStage.setScene(setupDelProdScene());
+            	delProdStage.show();
             }
         });
 		Label limpiarT = new Label (" -. Limpiar Lista");
@@ -175,8 +183,9 @@ public class ModoGrafico extends Application{
 		limpiar.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	//listaFinal.limpiaLista();
-            	//aviso de borrado
+            	cleanListStage=new Stage();
+            	cleanListStage.setScene(setupCleanListScene());
+            	cleanListStage.show();
             }
         });
 		Label mostrarT = new Label (" -. Mostrar Lista");
@@ -187,7 +196,9 @@ public class ModoGrafico extends Application{
 		mostrar.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	//nueva ventana
+            	showListStage=new Stage();
+            	showListStage.setScene(setupShowListScene());
+            	showListStage.show();
             }
         });
 		Label salirT = new Label (" -. Salir");
@@ -198,7 +209,17 @@ public class ModoGrafico extends Application{
 		salir.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+            	primaryStage.close();
             	secondaryStage.close();
+            	if(addProdStage!=null) {
+            		addProdStage.close();
+            	}
+            	if(delProdStage!=null) {
+            		delProdStage.close();
+            	}
+            	if(cleanListStage!=null) {
+            		cleanListStage.close();
+            	}
             }
         });
 		 
@@ -220,7 +241,318 @@ public class ModoGrafico extends Application{
 		return scene;
 	}//subscene
 	
+	/**
+	 * Crea ventana agregar producto
+	 * @return addProdScene
+	 */
+	private Scene setupAddProdScene(){
+		VBox root = new VBox ();
+		root.setSpacing (10.0);
+		root.setPadding (new Insets (10.0, 10.0, 10.0, 10.0));
+		HBox espTitulo = new HBox ();
+		espTitulo.setAlignment(Pos.CENTER);
+		HBox espacio1 = new HBox ();
+		espacio1.setSpacing (55.0);
+		HBox espacio2= new HBox ();
+		espacio2.setSpacing (10.0);
+		HBox espacio3= new HBox ();
+		espacio3.setSpacing (10.0);
+		
+		Label titulo = new Label (" Agragar Producto  ");
+		Label nombreT = new Label ("Nombre Producto ");
+		Label cantidadT = new Label ("Cantidad ");
+		TextField nombre=new TextField("Producto");
+		nombre.setPrefWidth (140.0);
+		nombre.setAlignment(Pos.CENTER);
+		TextField cantidad=new TextField("Cantidad");
+		cantidad.setPrefWidth (60.0);
+		cantidad.setAlignment(Pos.CENTER);
+		Button agregar = new Button ("Agregar");
+		agregar.setAlignment(Pos.CENTER);
+		agregar.setPrefWidth(100.0);
+		//accion de cada boton
+		agregar.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+		    public void handle(ActionEvent event) {
+				listaFinal.addProducto(nombre.getText(), Integer.parseInt(cantidad.getText()));
+				if(addProdStage!=null) {
+            		addProdStage.close();
+            	}
+		    }
+		});
+		Button cancelar = new Button ("Cancelar");
+		cancelar.setAlignment(Pos.CENTER);
+		cancelar.setPrefWidth(100.0);
+		//accion de cada boton
+		cancelar.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	if(addProdStage!=null) {
+            		addProdStage.close();
+            	}
+            }
+        });
+		espTitulo.getChildren ().addAll (titulo);
+		espacio1.getChildren ().addAll (nombreT,cantidadT);
+		espacio1.setPadding(new Insets(0,0,0,10));
+		espacio2.getChildren ().addAll (nombre,cantidad);
+		espacio2.setPadding(new Insets(0,0,0,10));
+		espacio3.getChildren ().addAll (agregar,cancelar);
+		espacio3.setPadding(new Insets(0,0,0,10));
+		root.getChildren ().addAll (espTitulo,espacio1,espacio2,espacio3);
+		Scene scene = new Scene (root, 250, 150);
+		return scene;
+	}//addProdScene
+	
+	/**
+	 * Crea ventana actualizar producto
+	 * @return modProdScene
+	 */
+	private Scene setupModProdScene(){
+		VBox root = new VBox ();
+		root.setSpacing (10.0);
+		root.setPadding (new Insets (10.0, 10.0, 10.0, 10.0));
+		HBox espTitulo = new HBox ();
+		espTitulo.setAlignment(Pos.CENTER);
+		HBox espacio1 = new HBox ();
+		espacio1.setSpacing (55.0);
+		HBox espacio2= new HBox ();
+		espacio2.setSpacing (10.0);
+		HBox espacio3= new HBox ();
+		espacio3.setSpacing (10.0);
+		
+		Label titulo = new Label (" Actualizar Producto  ");
+		Label nombreT = new Label ("Nombre Producto ");
+		Label cantidadT = new Label ("Cantidad ");
+		TextField nombre=new TextField("Producto");
+		nombre.setPrefWidth (140.0);
+		nombre.setAlignment(Pos.CENTER);
+		TextField cantidad=new TextField("Cantidad");
+		cantidad.setPrefWidth (60.0);
+		cantidad.setAlignment(Pos.CENTER);
+		Button agregar = new Button ("Agregar");
+		agregar.setAlignment(Pos.CENTER);
+		agregar.setPrefWidth(100.0);
+		//accion de cada boton
+		agregar.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+		    public void handle(ActionEvent event) {
+				listaFinal.addProducto(nombre.getText(), Integer.parseInt(cantidad.getText()));
+				if(addProdStage!=null) {
+            		addProdStage.close();
+            	}
+		    }
+		});
+		Button cancelar = new Button ("Cancelar");
+		cancelar.setAlignment(Pos.CENTER);
+		cancelar.setPrefWidth(100.0);
+		//accion de cada boton
+		cancelar.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	if(addProdStage!=null) {
+            		addProdStage.close();
+            	}
+            }
+        });
+		espTitulo.getChildren ().addAll (titulo);
+		espacio1.getChildren ().addAll (nombreT,cantidadT);
+		espacio1.setPadding(new Insets(0,0,0,10));
+		espacio2.getChildren ().addAll (nombre,cantidad);
+		espacio2.setPadding(new Insets(0,0,0,10));
+		espacio3.getChildren ().addAll (agregar,cancelar);
+		espacio3.setPadding(new Insets(0,0,0,10));
+		root.getChildren ().addAll (espTitulo,espacio1,espacio2,espacio3);
+		Scene scene = new Scene (root, 250, 150);
+		return scene;
+	}//modProdScene
+	
+	/**
+	 * Crea ventana borrar producto
+	 * @return delProdScene
+	 */
+	private Scene setupDelProdScene(){
+		VBox root = new VBox ();
+		root.setSpacing (10.0);
+		root.setPadding (new Insets (10.0, 10.0, 10.0, 10.0));
+		HBox espTitulo = new HBox ();
+		espTitulo.setAlignment(Pos.CENTER);
+		HBox espacio1 = new HBox ();
+		espacio1.setAlignment(Pos.CENTER);
+		espacio1.setSpacing (55.0);
+		HBox espacio2= new HBox ();
+		espacio2.setAlignment(Pos.CENTER);
+		espacio2.setSpacing (10.0);
+		HBox espacio3= new HBox ();
+		espacio3.setSpacing (10.0);
+		
+		Label titulo = new Label (" Borrar Producto  ");
+		Label nombreT = new Label ("Nombre Producto");
+		TextField nombre=new TextField("Producto");
+		nombre.setPrefWidth (140.0);
+		nombre.setAlignment(Pos.CENTER);
+		Button borrar = new Button ("Borrar");
+		borrar.setAlignment(Pos.CENTER);
+		borrar.setPrefWidth(100.0);
+		//accion de cada boton
+		borrar.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+		    public void handle(ActionEvent event) {
+				listaFinal.delProducto(nombre.getText());
+				if(delProdStage!=null) {
+            		delProdStage.close();
+            	}
+		    }
+		});
+		Button cancelar = new Button ("Cancelar");
+		cancelar.setAlignment(Pos.CENTER);
+		cancelar.setPrefWidth(100.0);
+		//accion de cada boton
+		cancelar.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	if(delProdStage!=null) {
+            		delProdStage.close();
+            	}
+            }
+        });
+		espTitulo.getChildren ().addAll (titulo);
+		espacio1.getChildren ().addAll (nombreT);
+		espacio1.setPadding(new Insets(0,0,0,10));
+		espacio2.getChildren ().addAll (nombre);
+		espacio2.setPadding(new Insets(0,0,0,10));
+		espacio3.getChildren ().addAll (borrar,cancelar);
+		espacio3.setPadding(new Insets(0,0,0,10));
+		root.getChildren ().addAll (espTitulo,espacio1,espacio2,espacio3);
+		Scene scene = new Scene (root, 250, 150);
+		return scene;
+	}//delProdScene
+	
+	/**
+	 * Crea ventana limpiar lista
+	 * @return cleanListScene
+	 */
+	private Scene setupShowListScene(){
+		VBox root = new VBox ();
+		root.setSpacing (10.0);
+		root.setPadding (new Insets (10.0, 10.0, 10.0, 10.0));
+		HBox espTitulo = new HBox ();
+		espTitulo.setAlignment(Pos.CENTER);
+		HBox espacio1 = new HBox ();
+		espacio1.setAlignment(Pos.CENTER);
+		espacio1.setSpacing (10.0);
+		HBox espacio2= new HBox ();
+		espacio2.setAlignment(Pos.CENTER);
+		espacio2.setSpacing (10.0);
+		HBox espacio3= new HBox ();
+		espacio3.setSpacing (10.0);
+		
+		Label titulo = new Label (" Mostrar Lista  ");
+		//mostrar elementos lista
+		Label aviso1T = new Label ("Se van a borrar los productos comprados");
+		aviso1T.setAlignment(Pos.CENTER);
+		Label aviso2T = new Label ("Los productos favoritos no se borran");
+		aviso2T.setAlignment(Pos.CENTER);
+		Button limpiar = new Button ("Limpiar");
+		limpiar.setAlignment(Pos.CENTER);
+		limpiar.setPrefWidth(100.0);
+		//accion de cada boton
+		limpiar.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+		    public void handle(ActionEvent event) {
+				listaFinal.limpiaLista();
+				if(cleanListStage!=null) {
+            		cleanListStage.close();
+            	}
+		    }
+		});
+		Button cancelar = new Button ("Cancelar");
+		cancelar.setAlignment(Pos.CENTER);
+		cancelar.setPrefWidth(100.0);
+		//accion de cada boton
+		cancelar.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	if(cleanListStage!=null) {
+            		cleanListStage.close();
+            	}
+            }
+        });
+		espTitulo.getChildren ().addAll (titulo);
+		espacio1.getChildren ().addAll (aviso1T);
+		espacio1.setPadding(new Insets(0,0,0,10));
+		espacio2.getChildren ().addAll (aviso2T);
+		espacio2.setPadding(new Insets(0,0,0,10));
+		espacio3.getChildren ().addAll (limpiar,cancelar);
+		espacio3.setPadding(new Insets(0,0,0,10));
+		root.getChildren ().addAll (espTitulo,espacio1,espacio2,espacio3);
+		Scene scene = new Scene (root, 250, 150);
+		return scene;
+	}//showListScene
+	
+	/**
+	 * Crea ventana limpiar lista
+	 * @return cleanListScene
+	 */
+	private Scene setupCleanListScene(){
+		VBox root = new VBox ();
+		root.setSpacing (10.0);
+		root.setPadding (new Insets (10.0, 10.0, 10.0, 10.0));
+		HBox espTitulo = new HBox ();
+		espTitulo.setAlignment(Pos.CENTER);
+		HBox espacio1 = new HBox ();
+		espacio1.setAlignment(Pos.CENTER);
+		espacio1.setSpacing (10.0);
+		HBox espacio2= new HBox ();
+		espacio2.setAlignment(Pos.CENTER);
+		espacio2.setSpacing (10.0);
+		HBox espacio3= new HBox ();
+		espacio3.setSpacing (10.0);
+		
+		Label titulo = new Label (" Limpiar Lista  ");
+		Label aviso1T = new Label ("Se van a borrar los productos comprados");
+		aviso1T.setAlignment(Pos.CENTER);
+		Label aviso2T = new Label ("Los productos favoritos no se borran");
+		aviso2T.setAlignment(Pos.CENTER);
+		Button limpiar = new Button ("Limpiar");
+		limpiar.setAlignment(Pos.CENTER);
+		limpiar.setPrefWidth(100.0);
+		//accion de cada boton
+		limpiar.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+		    public void handle(ActionEvent event) {
+				listaFinal.limpiaLista();
+				if(cleanListStage!=null) {
+            		cleanListStage.close();
+            	}
+		    }
+		});
+		Button cancelar = new Button ("Cancelar");
+		cancelar.setAlignment(Pos.CENTER);
+		cancelar.setPrefWidth(100.0);
+		//accion de cada boton
+		cancelar.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	if(cleanListStage!=null) {
+            		cleanListStage.close();
+            	}
+            }
+        });
+		espTitulo.getChildren ().addAll (titulo);
+		espacio1.getChildren ().addAll (aviso1T);
+		espacio1.setPadding(new Insets(0,0,0,10));
+		espacio2.getChildren ().addAll (aviso2T);
+		espacio2.setPadding(new Insets(0,0,0,10));
+		espacio3.getChildren ().addAll (limpiar,cancelar);
+		espacio3.setPadding(new Insets(0,0,0,10));
+		root.getChildren ().addAll (espTitulo,espacio1,espacio2,espacio3);
+		Scene scene = new Scene (root, 250, 150);
+		return scene;
+	}//cleanListScene
+	
 	public static void main (String[] args) {
 		launch (args);
 	}
-}
+	
+}//ModoGrafico
