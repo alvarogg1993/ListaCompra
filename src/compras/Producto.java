@@ -115,5 +115,13 @@ public class Producto{
 	public void muestraProducto(){
 		System.out.println(" .  Producto: " +this.nombre+ " .  Cantidad: " + this.cantidad+  " .  Comprado: "+this.comprado+  " .  Favorito: "+this.favorito  );
 	}
+	/**
+	 * toString
+	 * @return StringProducto
+	 */
+	public String toString(){
+		return " . "+nombre+" "+cantidad+" "+comprado+" "+favorito+" ";
+	}
+	
 }
 //clase Producto

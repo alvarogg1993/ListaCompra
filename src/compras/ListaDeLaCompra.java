@@ -146,9 +146,13 @@ public class ListaDeLaCompra{
 	public void comprarProducto(String nombreProd) {
 		Producto pr=getProducto(nombreProd);
 		if(pr!=null) {
-			listaProd.get(listaProd.indexOf(pr)).setComprado(true);
-			//listaProd.remove(pr); 
-			fichero.actualizaLista(listaProd);
+			if(pr.getComprado()) {
+				listaProd.get(listaProd.indexOf(pr)).setComprado(false);
+				fichero.actualizaLista(listaProd);
+			}else {
+				listaProd.get(listaProd.indexOf(pr)).setComprado(true);
+				fichero.actualizaLista(listaProd);
+			}
 		}else {
 			System.out.println("El producto elegido no existe");
 			System.out.println("No se harán modificaciones en la lista");
@@ -162,9 +166,13 @@ public class ListaDeLaCompra{
 	public void marcarFavorito(String nombreProd) {
 		Producto pr=getProducto(nombreProd);
 		if(pr!=null) {
-			listaProd.get(listaProd.indexOf(pr)).setFavorito(true);
-			//listaProd.remove(pr); 
-			fichero.actualizaLista(listaProd);
+			if(pr.getFavorito()) {
+				listaProd.get(listaProd.indexOf(pr)).setFavorito(false);
+				fichero.actualizaLista(listaProd);
+			}else {
+				listaProd.get(listaProd.indexOf(pr)).setFavorito(true);
+				fichero.actualizaLista(listaProd);
+			}		
 		}else {
 			System.out.println("El producto elegido no existe");
 			System.out.println("No se harán modificaciones en la lista");
@@ -178,8 +186,18 @@ public class ListaDeLaCompra{
 		for (Producto i : listaProd) {
 			i.muestraProducto();
 		}
-
 	}//muestraLista
+	/**
+	 * toString
+	 * return lista
+	 */
+	public String toString() {
+		String lista="";
+		for (Producto i : listaProd) {
+			lista+=i.toString()+"\n";
+		}
+		return lista;
+	}//toString
 
 }
 
