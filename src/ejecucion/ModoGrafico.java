@@ -780,33 +780,17 @@ public class ModoGrafico extends Application{
 		HBox espTitulo = new HBox ();
 		espTitulo.setAlignment(Pos.CENTER);
 		HBox espacio1 = new HBox ();
-		espacio1.setAlignment(Pos.CENTER);
-		espacio1.setSpacing (5.0);
 		HBox espacio2= new HBox ();
-		espacio2.setAlignment(Pos.CENTER);
-		espacio2.setSpacing (10.0);
 		HBox espacio3= new HBox ();
 		espacio3.setSpacing (10.0);
 		
 		Label titulo = new Label (" Mostrar Lista  ");
 		//mostrar elementos lista
-		Label nombreT = new Label (" Nombre ");
-		nombreT.setAlignment(Pos.CENTER);
-		Label cantidadT = new Label (" Cantidad ");
-		cantidadT.setAlignment(Pos.CENTER);
-		Label compradoT = new Label (" Comprado ");
-		compradoT.setAlignment(Pos.CENTER);
-		Label favT = new Label (" Favorito ");
-		favT.setAlignment(Pos.CENTER);
+		Label texto = new Label (" Nombre\t\tCant.\tCompr.\tFav.");
 		Label listaT = new Label (listaFinal.toString());
 		
 		String[] prod=listaFinal.toString().split("\n");
-		/*
-		for(String lp : prod) {
-			Label listaT = new Label (lp);
-			espacio2.getChildren ().addAll (listaT);
-		}
-		*/
+		
 		Button cerrar = new Button ("Cerrar");
 		cerrar.setAlignment(Pos.CENTER);
 		cerrar.setPrefWidth(100.0);
@@ -820,7 +804,7 @@ public class ModoGrafico extends Application{
             }
         });
 		espTitulo.getChildren ().addAll (titulo);
-		espacio1.getChildren ().addAll (nombreT,cantidadT,compradoT,favT);
+		espacio1.getChildren ().addAll (texto);
 		espacio1.setPadding(new Insets(0,0,0,10));
 		espacio2.getChildren ().addAll (listaT);
 		espacio2.setPadding(new Insets(0,0,0,10));

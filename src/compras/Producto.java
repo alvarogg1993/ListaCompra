@@ -120,7 +120,7 @@ public class Producto{
 	 * @return StringProducto
 	 */
 	public String toString(){
-		return " . "+nombre+" "+cantidad+" "+comprado+" "+favorito+" ";
+		return " . "+nombre+"\t\t"+cantidad+"\t\t"+comprado+"\t\t"+favorito+" ";
 	}
 	
 }
