@@ -10,8 +10,12 @@ import java.io.FileNotFoundException;
 public class Main {
 
 	static ModoTexto mtext;
+	static ModoGrafico mgraf;
 	
 	public static void main(String[] args) throws FileNotFoundException {
-		mtext=new ModoTexto();
+		//mtext=new ModoTexto();
+		mgraf=new ModoGrafico();
+		mgraf.main(args);
+		
 	}
 }
