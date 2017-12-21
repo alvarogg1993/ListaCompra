@@ -131,6 +131,7 @@ public class ListaDeLaCompra{
 			if(p.getComprado()) {
 				if(p.getFavorito()){
 					p.setCantidad(0);
+					p.setComprado(false);
 				}else {
 					listaProd.remove(p);
 				}
